@@ -41,7 +41,7 @@
       padding: 14px;
       font-size: 18px;
       margin: 8px;
-      min-width: 90px;
+      min-width: 100px;
       background-color: #ffffff;
       color: #121212;
       border: none;
@@ -75,12 +75,12 @@
 <body>
   <h2>VND to INR</h2>
 
-  <input type="number" id="vnd" placeholder="Enter item price in VND">
-  
+  <input type="text" id="vnd" placeholder="Enter item price in VND" oninput="formatInput()">
+
   <div class="button-row">
-    <button onclick="addZeros('00')">+00</button>
     <button onclick="addZeros('000')">+000</button>
-    <button onclick="addZeros('00000')">+00000</button>
+    <button onclick="addZeros('00000')">+00,000</button>
+    <button onclick="addZeros('0000000')">+00,00,000</button>
   </div>
 
   <div class="button-row">
@@ -96,9 +96,34 @@
     const inrPaid = 10000;
     const vndReceived = 2700000;
 
+    function formatNumberIndian(num) {
+      num = num.toString();
+      let lastThree = num.substring(num.length - 3);
+      let otherNumbers = num.substring(0, num.length - 3);
+
+      if (otherNumbers !== '') {
+        lastThree = ',' + lastThree;
+      }
+
+      return otherNumbers.replace(/\B(?=(\d{2})+(?!\d))/g, ",") + lastThree;
+    }
+
+    function formatInput() {
+      let input = document.getElementById("vnd");
+      let rawValue = input.value.replace(/,/g, '').replace(/\D/g, '');
+
+      if (rawValue) {
+        input.value = formatNumberIndian(rawValue);
+      } else {
+        input.value = "";
+      }
+    }
+
     function addZeros(zeros) {
       let input = document.getElementById("vnd");
-      input.value = input.value + zeros;
+      let rawValue = input.value.replace(/,/g, '');
+      rawValue = rawValue + zeros;
+      input.value = formatNumberIndian(rawValue);
     }
 
     function clearInput() {
@@ -107,7 +132,9 @@
     }
 
     function convert() {
-      let itemVnd = parseFloat(document.getElementById("vnd").value);
+      let itemVnd = parseFloat(
+        document.getElementById("vnd").value.replace(/,/g, '')
+      );
 
       if (!itemVnd) {
         document.getElementById("result").innerHTML = "Enter VND amount";
@@ -118,7 +145,10 @@
       let inrCost = itemVnd * rate;
 
       document.getElementById("result").innerHTML =
-        `₹ ${inrCost.toFixed(2)}`;
+        `₹ ${inrCost.toLocaleString('en-IN', {
+          minimumFractionDigits: 2,
+          maximumFractionDigits: 2
+        })}`;
     }
   </script>
 </body>
