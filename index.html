@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>VND to INR Converter</title>
+  <title>My Vietnam Converter</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <style>
     body {
@@ -19,32 +19,35 @@
   </style>
 </head>
 <body>
-  <h2>Vietnam Price Converter</h2>
-  
-  <input type="number" id="rate" placeholder="INR per 1000 VND (example 3.3)">
+  <h2>VND to INR Converter</h2>
+  <p>Using My Actual Exchange Rate</p>
+
+  <input type="number" id="vnd" placeholder="Enter item price in VND">
   <br>
-  
-  <input type="number" id="vnd" placeholder="Enter VND amount">
-  <br>
-  
+
   <button onclick="convert()">Convert</button>
-  
+
   <h3 id="result"></h3>
 
   <script>
-    function convert() {
-      let rate = parseFloat(document.getElementById("rate").value);
-      let vnd = parseFloat(document.getElementById("vnd").value);
+//Enter value here
+    const inrPaid = 30000;
+    const vndReceived = 9000000;
 
-      if (!rate || !vnd) {
-        document.getElementById("result").innerHTML = "Enter both values";
+    function convert() {
+      let itemVnd = parseFloat(document.getElementById("vnd").value);
+
+      if (!itemVnd) {
+        document.getElementById("result").innerHTML = "Enter VND amount";
         return;
       }
 
-      let inr = (vnd / 1000) * rate;
+      let rate = inrPaid / vndReceived;
+
+      let inrCost = itemVnd * rate;
 
       document.getElementById("result").innerHTML =
-        `₹ ${inr.toFixed(2)}`;
+        `₹ ${inrCost.toFixed(2)}`;
     }
   </script>
 </body>
