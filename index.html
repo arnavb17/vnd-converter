@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>VND to INR Converter</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    body {
+      font-family: Arial;
+      text-align: center;
+      padding: 30px;
+    }
+    input, button {
+      padding: 12px;
+      font-size: 18px;
+      margin: 10px;
+      width: 80%;
+      max-width: 300px;
+    }
+  </style>
+</head>
+<body>
+  <h2>Vietnam Price Converter</h2>
+  
+  <input type="number" id="rate" placeholder="INR per 1000 VND (example 3.3)">
+  <br>
+  
+  <input type="number" id="vnd" placeholder="Enter VND amount">
+  <br>
+  
+  <button onclick="convert()">Convert</button>
+  
+  <h3 id="result"></h3>
+
+  <script>
+    function convert() {
+      let rate = parseFloat(document.getElementById("rate").value);
+      let vnd = parseFloat(document.getElementById("vnd").value);
+
+      if (!rate || !vnd) {
+        document.getElementById("result").innerHTML = "Enter both values";
+        return;
+      }
+
+      let inr = (vnd / 1000) * rate;
+
+      document.getElementById("result").innerHTML =
+        `₹ ${inr.toFixed(2)}`;
+    }
+  </script>
+</body>
+</html>
