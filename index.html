@@ -21,15 +21,16 @@
 
     input {
       padding: 14px;
-      font-size: 18px;
+      font-size: 22px;
       margin: 10px;
       width: 80%;
-      max-width: 300px;
+      max-width: 320px;
       background-color: #1e1e1e;
       color: white;
       border: 1px solid #333;
       border-radius: 10px;
       outline: none;
+      text-align: center;
     }
 
     input::placeholder {
@@ -39,9 +40,8 @@
     button {
       padding: 14px;
       font-size: 18px;
-      margin: 10px;
-      width: 80%;
-      max-width: 300px;
+      margin: 8px;
+      min-width: 90px;
       background-color: #ffffff;
       color: #121212;
       border: none;
@@ -53,7 +53,16 @@
 
     button:hover {
       opacity: 0.9;
-      transform: scale(1.02);
+      transform: scale(1.03);
+    }
+
+    .button-row {
+      margin: 10px 0;
+    }
+
+    .convert-btn {
+      width: 80%;
+      max-width: 320px;
     }
 
     h3 {
@@ -67,16 +76,35 @@
   <h2>VND to INR</h2>
 
   <input type="number" id="vnd" placeholder="Enter item price in VND">
-  <br>
+  
+  <div class="button-row">
+    <button onclick="addZeros('00')">+00</button>
+    <button onclick="addZeros('000')">+000</button>
+    <button onclick="addZeros('00000')">+00000</button>
+  </div>
 
-  <button onclick="convert()">Convert</button>
+  <div class="button-row">
+    <button onclick="clearInput()">Clear</button>
+  </div>
+
+  <button class="convert-btn" onclick="convert()">Convert</button>
 
   <h3 id="result"></h3>
 
   <script>
-    // Change values here
-    const inrPaid = 10000; //INR Paid
-    const vndReceived = 2700000;  //VND Recieved
+    // Enter your actual forex purchase here
+    const inrPaid = 10000;
+    const vndReceived = 2700000;
+
+    function addZeros(zeros) {
+      let input = document.getElementById("vnd");
+      input.value = input.value + zeros;
+    }
+
+    function clearInput() {
+      document.getElementById("vnd").value = "";
+      document.getElementById("result").innerHTML = "";
+    }
 
     function convert() {
       let itemVnd = parseFloat(document.getElementById("vnd").value);
@@ -87,7 +115,6 @@
       }
 
       let rate = inrPaid / vndReceived;
-
       let inrCost = itemVnd * rate;
 
       document.getElementById("result").innerHTML =
